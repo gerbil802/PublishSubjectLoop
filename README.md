@@ -1,16 +1,7 @@
-# rxCompletedBindingIssue
-
-This repository reproduces an issue where a later binding stream which has completed causes the initial binding to be "completed" as well.
+# PublishSubjectLoop
 
 1. Run the app.
-2. Click the button. 
-3. Click the button again - no response.
+2. Click A or B
+3. Now click End
 
-This is because it seems the subscription in `viewDidLoad` is not active anymore.
-The button ran this code:
-
-```
-        let d = PublishSubject<AppInput>()
-        self.c.amb(d).take(1).bindTo(self.vm.appInput).disposed(by: self.bag)
-        d.onNext(.showOptions) // Completes D. vm.appInput is completed as well.
-```
+The app will crash, but the question remains, how would you perform an action that once finished, continues with the flow of the app?
